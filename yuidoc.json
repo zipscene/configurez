@@ -1,0 +1,8 @@
+{
+	"name": "zs-dir-locals",
+	"description": "Directory Local Configurations",
+	"options": {
+		"outdir": "./docs",
+		"exclude": "dist,tmp,test,node_modules"
+	}
+}

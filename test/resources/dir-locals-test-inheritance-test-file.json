@@ -1,0 +1,37 @@
+{
+  "local": {
+    "service": !inherit [ "production", {
+      "server": "localhost"
+    } ],
+    "database": {
+      "server": !inherit [ "production" ],
+      "port": 9999
+    },
+    "other-service": !inherit [ "production", {}, {
+      "server": "nonlocal",
+      "on": false
+    } ],
+		"missing": !inherit [ "dev" ]
+  },
+  "production": {
+    "service": {
+      "server": "https://a.website.space",
+      "port": 3001
+    },
+    "database": !inherit [ "dev", {
+      "server": "https://a.database.website.space",
+      "port": 8888
+    } ],
+    "other-service": {
+      "server": "https://a.other.service.website.space"
+    },
+    "ignored": {
+      "nothing": "to see here"
+    }
+  },
+  "dev": {
+    "database": {
+      "on": true
+    }
+  }
+}
