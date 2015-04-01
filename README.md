@@ -6,16 +6,16 @@ Configurez uses [YAML](https://github.com/nodeca/js-yaml) to parse all configura
 
 ## Usage
 
-Find and merge all files from the running script down the filesystem that match /\.configurez\.[json|ya?ml]:
-```js
-var configurez = require('configurez');
-var config = configurez.dir();
-```
-
 Merge configurations; one from disk and one generated before calling:
 ```js
 var configurez = require('configurez');
 var config = configurez([ 'path/to/config', loadedConfig ]);
+```
+
+Find and merge all files from the running script down the filesystem that match /\.configurez\.[json|ya?ml]:
+```js
+var configurez = require('configurez');
+var config = configurez.dir();
 ```
 
 ## Features
