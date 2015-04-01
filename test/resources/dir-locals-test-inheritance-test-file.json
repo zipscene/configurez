@@ -1,37 +1,40 @@
 {
-  "local": {
-    "service": !inherit [ "production", {
-      "server": "localhost"
+  'local': {
+    'service': !inherit [ 'production', {
+      'server': 'localhost'
     } ],
-    "database": {
-      "server": !inherit [ "production" ],
-      "port": 9999
+    'database': {
+      'server': !inherit [ 'production' ],
+      'port': 9999
     },
-    "other-service": !inherit [ "production", {}, {
-      "server": "nonlocal",
-      "on": false
+    'other-service': !inherit [ 'production', {}, {
+      'server': 'nonlocal',
+      'db': !inherit [ 'dev' ]
     } ],
-		"missing": !inherit [ "dev" ]
+    'missing': !inherit [ 'dev' ]
   },
-  "production": {
-    "service": {
-      "server": "https://a.website.space",
-      "port": 3001
+  'production': {
+    'service': {
+      'server': 'https://a.website.space',
+      'port': 3001
     },
-    "database": !inherit [ "dev", {
-      "server": "https://a.database.website.space",
-      "port": 8888
+    'database': !inherit [ 'dev', {
+      'server': 'https://a.database.website.space',
+      'port': 8888
     } ],
-    "other-service": {
-      "server": "https://a.other.service.website.space"
+    'other-service': {
+      'server': 'https://a.other.service.website.space'
     },
-    "ignored": {
-      "nothing": "to see here"
+    'ignored': {
+      'nothing': 'to see here'
     }
   },
-  "dev": {
-    "database": {
-      "on": true
+  'dev': {
+    'database': {
+      'on': true
+    },
+    'other-service': {
+      'db': 'mongo'
     }
   }
 }
