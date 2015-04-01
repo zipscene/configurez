@@ -5,8 +5,10 @@ let path = require('path');
 let configurez = require('../lib');
 
 describe('Configurator', function() {
-	let testFile = path.resolve(__dirname, 'resources', 'inner', 'dir-locals-test-config-file.json');
-	let testFile2 = path.resolve(__dirname, 'resources', 'dir-locals-test-config-file.yml');
+
+	let testFile = path.resolve(__dirname, 'resources', 'inner', 'configurez-test-config-file.json');
+	let testFile2 = path.resolve(__dirname, 'resources', 'configurez-test-config-file.yml');
+
 	it('should read in, load, and transform a valid JSON file', function() {
 		let config = configurez(testFile, {
 			env: 'local',
@@ -42,4 +44,5 @@ describe('Configurator', function() {
 			}
 		});
 	});
+
 });

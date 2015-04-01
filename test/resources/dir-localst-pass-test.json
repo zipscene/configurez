@@ -1,8 +1,0 @@
-{
-	"local": {
-		"service": {
-			"username": "admen",
-			"password": !pass "Service/admen"
-		}
-	}
-}
