@@ -1,11 +1,11 @@
 {
-  "name": "zs-dir-locals",
+  "name": "zs-configurez",
   "version": "0.0.1",
-  "description": "Directory Local Configurations",
+  "description": "Configuration detecting and merging with inheritance and other goodies.",
   "main": "./dist/lib/index.js",
   "repository": {
     "type": "git",
-    "url": "git@git.zipscene.com:zsapilibs/zs-dir-locals.git"
+    "url": "git@git.zipscene.com:zsapilibs/zs-configurez.git"
   },
   "scripts": {
     "lint": "node ./node_modules/.bin/eslint . || exit 0",
@@ -18,11 +18,9 @@
   "dependencies": {
     "babel-runtime": "^4.7.16",
     "extend": "^2.0.0",
-    "inheritz": "^1.1.0",
     "js-yaml": "^3.2.7",
     "lodash": "^3.6.0",
-    "xerror": "^1.0.0",
-    "zs-objtools": "^0.3.1"
+    "xerror": "^1.0.0"
   },
   "devDependencies": {
     "broccoli": "^0.15.3",
