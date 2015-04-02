@@ -1,0 +1,2 @@
+local: !inherit [ 'production' ]
+production: !inherit [ 'local' ]

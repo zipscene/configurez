@@ -1,5 +1,6 @@
 let expect = require('chai').expect;
 let path = require('path');
+let XError = require('xerror');
 
 let configurez = require('../lib');
 
@@ -26,6 +27,14 @@ describe('!inherit', function() {
 			},
 			missing: undefined
 		});
+	});
+
+	it('should throw on circular dependencies', function() {
+		let failFile = path.resolve(__dirname, 'resources', 'configurez-test-circular-inherit-tag-file.yml');
+		expect(configurez.bind(null, failFile, {
+			env: 'local',
+			extraTags: true
+		})).to.throw(XError);
 	});
 
 });

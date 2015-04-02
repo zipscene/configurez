@@ -12,27 +12,24 @@ describe('Configurator', function() {
 	it('should read in, load, and transform a valid JSON file', function() {
 		let config = configurez(testFile, {
 			env: 'local',
-			defaults: {
-				service: {
-					server: 'nonlocalhost'
-				}
-			}
+			defaults: { service: { server: 'nonlocalhost' } }
 		});
-		expect(config).to.deep.equal({
-			service: {
-				server: 'localhost'
-			}
+		expect(config).to.deep.equal({ service: { server: 'localhost' } });
+	});
+
+	it('should be able to get the env from NODE_ENV', function() {
+		let oldVal = process.env.NODE_ENV;
+		process.env.NODE_ENV = 'local';
+		let config = configurez(testFile, {
+			defaults: { service: { server: 'nonlocalhost' } }
 		});
+		expect(config).to.deep.equal({ service: { server: 'localhost' } });
+		process.env.NODE_ENV = oldVal;
 	});
 
 	it('should merge together and transform files', function() {
 		let config = configurez([ testFile2, testFile ], { env: 'local' });
-		expect(config).to.deep.equal({
-			service: {
-				server: 'localhost',
-				port: 4000
-			}
-		});
+		expect(config).to.deep.equal({ service: { server: 'localhost', port: 4000 } });
 	});
 
 	it('should handle a mix of file paths and objects', function() {

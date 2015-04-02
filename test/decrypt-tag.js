@@ -5,10 +5,9 @@ let configurez = require('../lib');
 
 describe('!decrypt', function() {
 
-
 	it('should decrypt values using aes256', function() {
-		let testFile = path.resolve(__dirname, 'resources', 'configurez-test-decrypt-tag-file.yml');
-		let config = configurez(testFile, {
+		let failFile = path.resolve(__dirname, 'resources', 'configurez-test-decrypt-tag-file.yml');
+		let config = configurez(failFile, {
 			env: 'local',
 			extraTags: true,
 			defaultPassword: 'password'

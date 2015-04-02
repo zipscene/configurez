@@ -7,9 +7,9 @@
     "type": "git",
     "url": "git@git.zipscene.com:zsapilibs/zs-configurez.git"
   },
-	"bin": {
-		"configurez-encrypt": "dist/bin/encrypt.js"
-	},
+  "bin": {
+    "configurez-encrypt": "dist/bin/encrypt.js"
+  },
   "scripts": {
     "lint": "node ./node_modules/.bin/eslint . || exit 0",
     "docs": "node ./node_modules/.bin/yuidoc .",
@@ -23,6 +23,7 @@
     "extend": "^2.0.0",
     "js-yaml": "^3.2.7",
     "lodash": "^3.6.0",
+    "sync-exec": "^0.5.0",
     "sync-prompt": "^0.4.2",
     "xerror": "^1.0.0"
   },
