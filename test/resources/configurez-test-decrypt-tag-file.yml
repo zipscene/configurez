@@ -1,0 +1,6 @@
+{
+  'local': {
+    'username': 'admon',
+    'password': !decrypt 'SkOk3YRCECx2Ezp2n77rkxWyrHmwRiGcpgDICV+CYio='
+  }
+}

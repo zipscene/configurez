@@ -16,7 +16,7 @@ if(fs.existsSync('./.babelrc')) {
 
 // Returns a broc tree corresponding to the original source files
 function getSourceTrees() {
-	var pathsToSearch = [ 'lib', 'src', 'test' ];
+	var pathsToSearch = [ 'lib', 'bin', 'test' ];
 
 	return {
 		read: function(readTree) {

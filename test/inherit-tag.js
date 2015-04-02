@@ -5,9 +5,8 @@ let configurez = require('../lib');
 
 describe('!inherit', function() {
 
-	let testFile = path.resolve(__dirname, 'resources', 'configurez-test-inheritance-file.yml');
-
 	it('should inherit configs after merge with !inherit tag', function() {
+		let testFile = path.resolve(__dirname, 'resources', 'configurez-test-inherit-tag-file.yml');
 		let config = configurez(testFile, {
 			env: 'local',
 			extraTags: true
