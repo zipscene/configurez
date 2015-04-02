@@ -5,7 +5,6 @@ let configurez = require('../lib');
 
 describe('!env', function() {
 
-
 	it('should pulls value from process.env', function() {
 		let testFile = path.resolve(__dirname, 'resources', 'configurez-test-env-tag-file.yml');
 		let oldVal = process.env.ENV_TAG_TEST;
