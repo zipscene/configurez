@@ -6,17 +6,44 @@ Configurez uses [YAML](https://github.com/nodeca/js-yaml) to parse all configura
 
 ## Usage
 
-Merge configurations; one from disk and one generated before calling:
+### Objects/Files
+Merge configurations given to configurez as a path to a file, or a preloaded object:
 ```js
 var configurez = require('configurez');
 var config = configurez([ 'path/to/config', loadedConfig ]);
 ```
+This is a helper function that will just return the config property on `Configurator`
 
-Find and merge all files from the running script down the filesystem that match `/\.configurez\.[json|ya?ml]/`:
+### Directory
+Find and merge all files found while walking the filesystem from the running script down to root that match `/\.configurez\.[json|ya?ml]/`:
 ```js
 var configurez = require('configurez');
 var config = configurez.dir();
 ```
+This is a helper function that will just return the config property on `DirectoryConfigurator`
+
+## Interface
+
+### configurez(fullConfig, opts)
+* `{Object|String|Object[]|String[]} fullConfig` - YAML configuration objects or file paths to load.
+* `{Object} [opts]` - Options object to pass on to the Configurator.
+  * `{Boolean|Tag[]} [opts.extraTags=false]` - Allow extra tags (!inherit, !decrypt, !pass).
+  * `{String} [opts.env=process.env.NODE_ENV || 'local']` - The environment to pull the config for.
+  * `{Object} [opts.defaults]` - Defaults to be applied under the config object.
+  * `{Object} [opts.overrides]` - Overrides to be applied on top the config object.
+  * `{String} [defautlPassword]` - Default password to be used by tags like !decrypt
+
+### configurez(basename, opts)
+* `{String|RegExp} [basename='/\.configurez\.[json|ya?ml]/']` - Basename of the config files.
+* `{Object} [opts]` - Options object to pass on to the Configurator.
+  * `{String} [opts.dirname=path.dirname(require.main.filename)]` - Directory to start walking.
+  * `{Boolean} [opts.checkHome=true]` - Check the home directory for a default file.
+  * `{Boolean} [opts.recursive=true]` - Recursively walk the filesystem.
+  * `{Boolean|Tag[]} [opts.extraTags=false]` - Allow extra tags (!inherit, !decrypt, !pass).
+  * `{String} [opts.env=process.env.NODE_ENV || 'local']` - The environment to pull the config for.
+  * `{Object} [opts.defaults]` - Defaults to be applied under the config object.
+  * `{Object} [opts.overrides]` - Overrides to be applied on top the config object.
+  * `{String} [defautlPassword]` - Default password to be used by tags like !decrypt
 
 ## Environment Specific Configuration
 Configurez will pull the configuration based on the value of `NODE_ENV`.  
@@ -122,15 +149,17 @@ Pull in values from the environment, with the ability to set the fallback value.
 ```
 This will look for `APP_LOG_LEVEL` in the environment variables and will set it to `'info'` if it wasn't found.
 
-## Progress
+### !passwordstore key
+Pull in value from [pass](http://www.passwordstore.org/).
+- `{String} key` - The key to pull from `pass`.
+NOTE: in order to run the tests/use this tag, you must have pass installed as binary on your PATH.
 
-### TODOS
-- Pull values from password manager (pass, onepass)
-
-### DONE
-- Recursively find config files
-- Always specify a file name to look for instead of hardcoding a static name; default to "config.???"
-- Allow different environments based on NODE_ENV
-- Inheritance between environments
-- Override individual options with env vars
-- Decrypt fields using a simple password
+#### Example:
+```yaml
+{
+  'local': {
+    'password': !passwordstore 'Passtest/pass'
+  }
+}
+```
+This will execute `pass "Passtest/pass"`, then pass on the output to the config file.
