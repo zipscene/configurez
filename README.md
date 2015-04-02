@@ -25,6 +25,7 @@ This is a helper function that will just return the config property on `Director
 ## Interface
 
 ### configurez(fullConfig, opts)
+Configurator which takes configuration objects, and transfoms them based on NODE_ENV and custom tags.
 * `{Object|String|Object[]|String[]} fullConfig` - YAML configuration objects or file paths to load.
 * `{Object} [opts]` - Options object to pass on to the Configurator.
   * `{Boolean|Tag[]} [opts.extraTags=false]` - Allow extra tags (!inherit, !decrypt, !pass).
@@ -33,7 +34,8 @@ This is a helper function that will just return the config property on `Director
   * `{Object} [opts.overrides]` - Overrides to be applied on top the config object.
   * `{String} [defautlPassword]` - Default password to be used by tags like !decrypt
 
-### configurez(basename, opts)
+### configurez.dir(basename, opts)
+Directory Configurator which finds and merges configurations found while walking the filesystem.
 * `{String|RegExp} [basename='/\.configurez\.[json|ya?ml]/']` - Basename of the config files.
 * `{Object} [opts]` - Options object to pass on to the Configurator.
   * `{String} [opts.dirname=path.dirname(require.main.filename)]` - Directory to start walking.
