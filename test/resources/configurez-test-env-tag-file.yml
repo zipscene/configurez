@@ -1,0 +1,6 @@
+{
+  "local": {
+    "val": !env [ "ENV_TAG_TEST", "default val..." ],
+    "missing": !env [ "ENV_TAG_TEST_MISSING", "default val..." ]
+  }
+}
