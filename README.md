@@ -1,70 +1,107 @@
 # Configurez
 
 Configuration loading and merging based on the environment with inheritance and other goodies.
+This README provides information on common use cases. More extensive documentation is available in the docs directory.
 
-Configurez uses [YAML](https://github.com/nodeca/js-yaml) to parse all configuration files , with options to add custom tag types (by default it uses the DEFAULT_SAFE_SCHEMA).
+## Environment Based
+`NODE_ENV` is used to determine which configuration to pull from the full configuration file.
+If `NODE_ENV` is not set, Configurez will use `"local"`.
 
-## Usage
-
-### Objects/Files
-Merge configurations given to configurez as a path to a file, or a preloaded object:
-```js
-var configurez = require('configurez');
-var config = configurez([ 'path/to/config', loadedConfig ]);
-```
-This is a helper function that will just return the config property on `Configurator`
-
-### Directory
-Find and merge all files found while walking the filesystem from the running script down to root that match `/\.configurez\.[json|ya?ml]/`:
-```js
-var configurez = require('configurez');
-var config = configurez.dir();
-```
-This is a helper function that will just return the config property on `DirectoryConfigurator`
-
-## Interface
-
-### configurez(fullConfig, opts)
-Configurator which takes configuration objects, and transfoms them based on NODE_ENV and custom tags.
-* `{Object|String|Object[]|String[]} fullConfig` - YAML configuration objects or file paths to load.
-* `{Object} [opts]` - Options object to pass on to the Configurator.
-  * `{Boolean|Tag[]} [opts.extraTags=false]` - Allow extra tags (!inherit, !decrypt, !pass).
-  * `{String} [opts.env=process.env.NODE_ENV || 'local']` - The environment to pull the config for.
-  * `{Object} [opts.defaults]` - Defaults to be applied under the config object.
-  * `{Object} [opts.overrides]` - Overrides to be applied on top the config object.
-  * `{String} [defautlPassword]` - Default password to be used by tags like !decrypt
-
-### configurez.dir(basename, opts)
-Directory Configurator which finds and merges configurations found while walking the filesystem.
-* `{String|RegExp} [basename='/\.configurez\.[json|ya?ml]/']` - Basename of the config files.
-* `{Object} [opts]` - Options object to pass on to the Configurator.
-  * `{String} [opts.dirname=path.dirname(require.main.filename)]` - Directory to start walking.
-  * `{Boolean} [opts.checkHome=true]` - Check the home directory for a default file.
-  * `{Boolean} [opts.recursive=true]` - Recursively walk the filesystem.
-  * `{Boolean|Tag[]} [opts.extraTags=false]` - Allow extra tags (!inherit, !decrypt, !pass).
-  * `{String} [opts.env=process.env.NODE_ENV || 'local']` - The environment to pull the config for.
-  * `{Object} [opts.defaults]` - Defaults to be applied under the config object.
-  * `{Object} [opts.overrides]` - Overrides to be applied on top the config object.
-  * `{String} [defautlPassword]` - Default password to be used by tags like !decrypt
-
-## Environment Specific Configuration
-Configurez will pull the configuration based on the value of `NODE_ENV`.  
-For example, the following:
+For example, if your full configuration is:
 ```json
 {
   "local": {
-    "server": "localhost:3000"
+    "port": 9000
   },
   "production": {
-    "server": "http://a.great.website.com"
+    "port": 8000
   }
 }
 ```
-If `NODE_ENV` isn't set, or is set to `'local'`, configurez will yeild:
+And `NODE_ENV=production`, the resulting config will be:
 ```json
 {
-  "server": "localhost:3000"
+  "production": {
+    "port": 8000
+  }
 }
+```
+
+## Other Goodies
+Configurez use [YAML](https://github.com/nodeca/js-yaml) to parse all configuration files, which means
+you can write your configurations can range from strict JSON with comments, to taking full advantage of
+the YAML spec.
+
+Configurez also includes extra tag types (turn on by default) to allow extras, such as inheritance and decryption.
+
+## Configurators
+Configurators are helper objects that do the work of merging and transforming the configurations.
+
+### configurez.Configurator(configs, opts)
+Configurator takes an array of configs, which it merges, and transforms into a single configuration.  
+These configs can be loaded Objects, or a filesystem path to some config on disk.  
+For example:
+```json
+// ./project-config.json
+{
+  "local": {
+    "server": "localhost",
+    "port": 9000
+  }
+}
+```
+```js
+var configurez = require('zs-configurez');
+var loadedConfig = {
+  "local": {
+    "port": 8000
+  }
+};
+var configurator = new configurez.Configurator([ './project-config.json', loadedConfig ]);
+// configurator.config = {
+//   "server: "localhost",
+//   "port": 8000
+// }
+```
+The `Configurator` builds the config object while being instantiated. You can access it directly with
+`configurator.config`, and reload/rebuild it by calling `configurator.reload()`.
+
+#### Options
+* `{Boolean|Tag[]} extraTags` - Allow extra tags (!inherit, !decrypt, !pass). (Defaults to `true`)
+* `{String} env` - The environment to pull the config for. (Defaults to `process.env.NODE_ENV || 'local'`)
+* `{Object} defaults` - Defaults to be applied under the config object.
+* `{Object} overrides` - Overrides to be applied on top the config object.
+* `{String} defautlPassword` - Default password to be used by tags like !decrypt
+
+#### configurez(configs, opts)
+Configurez includes a helper function for instantiating, and accessing the `config` field on a `Configurator`:
+```js
+var config = configurez([ './project-config.json', loadedConfig ]);
+```
+
+### configurez.DirectoryConfigurator(basename, opts)
+This will walk the filesystem to find config files that match a given basename.  
+By default, this is: `/\.configurez\.[json|ya?ml]/`.  
+For example:
+```js
+var configurez = require('zs-configurez');
+var configurator = new configurez.DirectoryConfigurator('project-config.json');
+// configurator.config = {
+//   "server: "localhost",
+//   "port": 9000
+// }
+```
+
+#### Options
+All options in `Configurator`, plus:
+* `{String} dirname` - Directory to start walking. (Defaults to the directory of the file starting the node process)
+* `{Boolean} checkHome` - Check the home directory for a default file. (Defaults to `true`)
+* `{Boolean} recursive` - Recursively walk the filesystem. (Defaults to `true`)
+
+#### configurez.dir(basename, opts)
+Configurez includes a helper function for instantiating, and accessing the `config` field on a `DirectoryConfigurator`:
+```js
+var config = configurez.dir('project-config.json');
 ```
 
 ## Extra YAML Tags
@@ -73,9 +110,9 @@ The interface for each of the tags is defined below, with an example of their us
 
 ### !inherit [ env, overrides, defaults ]
 Inherit specific fields from another environment.
-- `{String} env` - The environment to pluck this field from.
-- `{Object} [overrides]` - Overrides to apply over the inherited config.
-- `{Object} [defaults]` - Defaults to before the inherited config.
+* `{String} env` - The environment to pluck this field from.
+* `{Object} [overrides]` - Overrides to apply over the inherited config.
+* `{Object} [defaults]` - Defaults to before the inherited config.
 NOTE: overrides and defaults should only be used if the value pulled from the other environment is an `Object`.
 
 #### Example:
@@ -83,23 +120,23 @@ NOTE: overrides and defaults should only be used if the value pulled from the ot
 {
   'local': {
     'service': !inherit [ 'production', {
-	  'server': 'localhost:3000'
-	}]
+      'server': 'localhost:3000'
+    }]
   },
   'production': {
     'service': {
-	  'server': 'http://a.great.website.com',
-	  'db': 'mongo'
-	}
+      'server': 'http://a.great.website.com',
+      'db': 'mongo'
+    }
   }
 }
 ```
-Configurez will yeild the following config with `NODE_ENV` set to `'local'`:
+Configurez will yield the following config with `NODE_ENV` set to `'local'`:
 ```json
 {
   "service": {
     "server": "localhost:3000",
-	"db": "mongo"
+    "db": "mongo"
   }
 }
 ```
@@ -107,8 +144,24 @@ For more complex examples, see `test/inheritance.js` and `test/resources/configu
 
 ### !decrypt text
 Decrypt a `base64`, `aes-256-ctr` encrypted value object.
-- `{String} text` - The encrypted value.
+* `{String} text` - The encrypted value.
 The decrypted text must take on the form: `{ value: <VALUE> }`, where `<VALUE>` is valid JSON.  
+NOTE: you should never create encrypted values yourself. Instead use the `bin/encrypt.js` script:
+```
+$ node dist/bin/encrypt.js
+Welcome to the Configurez encypt script
+Value: rubber ducky
+Password: password
+Encrypted: SkOk3YRCECx2Ezp2n77rk5JjO9KQR2HBKxyhRw0jztw=
+```
+The `Password: ` prompt is hidden while typing.
+
+You can also access the encrypt script if you install Configurez globally:
+```bash
+$ npm -i -g zs-configurez
+$ configurez-encrypt
+```
+
 This restriction is so the password can be validated. If the currently stored password fails, the user will be prompted to enter it in again.
 NOTE: only one password should be used per configuration.
 
@@ -116,14 +169,14 @@ NOTE: only one password should be used per configuration.
 ```yaml
 {
   'local': {
-    'username': 'admon',
+    'username': 'admin',
     'password': !decrypt 'SkOk3YRCECx2Ezp2n77rkxWyrHmwRiGcpgDICV+CYio='
   }
 }
 ```
 This encrypted value evaluates to: `'{"value":"rubber ducky"}'` with password: `'password'`.
 
-#### Helper Script:
+#### Encrypt Script:
 There is a helper script for generating !decrypt text fields. Simply follow the prompts after running:
 ```bash
 $ node bin/encrypt.js
@@ -136,8 +189,8 @@ $ configurez-encrypt
 
 ### !env [ variable, fallback ]
 Pull in values from the environment, with the ability to set the fallback value.
-- `{String} variable` - The environment variable to pull.
-- `{*}` - The fallback value if the environment variable wasn't found.
+* `{String} variable` - The environment variable to pull.
+* `{Mixed}` - The fallback value if the environment variable wasn't found.
 
 #### Example:
 ```yaml
@@ -153,7 +206,7 @@ This will look for `APP_LOG_LEVEL` in the environment variables and will set it 
 
 ### !passwordstore key
 Pull in value from [pass](http://www.passwordstore.org/).
-- `{String} key` - The key to pull from `pass`.
+* `{String} key` - The key to pull from `pass`.
 NOTE: in order to run the tests/use this tag, you must have pass installed as binary on your PATH.
 
 #### Example:

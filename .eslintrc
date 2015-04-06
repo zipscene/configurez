@@ -58,7 +58,7 @@
 		"dot-notation": 2,
 		"eqeqeq": 2,
 		"guard-for-in": 0,
-		"no-alert": 0,
+		"no-alert": 1,
 		"no-caller": 2,
 		"no-div-regex": 0,
 		"no-else-return": 0,

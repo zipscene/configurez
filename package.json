@@ -19,17 +19,19 @@
     "prepublish": "npm run-script build && npm run-script docs"
   },
   "dependencies": {
-    "babel-runtime": "^4.7.16",
+    "babel-runtime": "^5.0.9",
     "extend": "^2.0.0",
     "js-yaml": "^3.2.7",
     "lodash": "^3.6.0",
+    "pasync": "^0.2.0",
     "sync-exec": "^0.5.0",
     "sync-prompt": "^0.4.2",
-    "xerror": "^1.0.0"
+    "xerror": "^1.0.0",
+    "zs-objtools": "^0.3.2"
   },
   "devDependencies": {
     "broccoli": "^0.15.3",
-    "broccoli-babel-transpiler": "^4.1.0",
+    "broccoli-babel-transpiler": "^5.0.0",
     "broccoli-cli": "^1.0.0",
     "broccoli-merge-trees": "^0.2.1",
     "broccoli-static-compiler": "^0.2.1",

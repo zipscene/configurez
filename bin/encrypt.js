@@ -7,6 +7,7 @@ let ENCODING = 'utf8';
 
 console.log('Welcome to the Configurez encypt script');
 
+/*eslint no-alert:0*/
 let data = prompt('Value: ');
 let pass = prompt.hidden('Password: ');
 

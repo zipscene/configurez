@@ -6,6 +6,7 @@ let XError = require('xerror');
 let configurez = require('../lib');
 
 describe('!passwordstore', function() {
+
 	let whichPass = execSync('which pass');
 	if (whichPass.status !== 0) {
 		console.log('Pass doesn\'t exist on this system, skipping these tests.');
@@ -13,6 +14,7 @@ describe('!passwordstore', function() {
 	}
 
 	it('should grab values out of Password Store', function() {
+		this.timeout(60000);
 		let file = path.resolve(__dirname, 'resources', 'configurez-test-passwordstore-tag-file.yml');
 		let config = configurez(file, {
 			env: 'local',
@@ -22,6 +24,7 @@ describe('!passwordstore', function() {
 	});
 
 	it('should grab values out of Password Store', function() {
+		this.timeout(60000);
 		let failFile = path.resolve(__dirname, 'resources', 'configurez-test-fail-passwordstore-tag-file.yml');
 		expect(configurez.bind(undefined, failFile, {
 			env: 'local',
