@@ -31,10 +31,17 @@ describe('!inherit', function() {
 
 	it('should throw on circular dependencies', function() {
 		let failFile = path.resolve(__dirname, 'resources', 'configurez-test-circular-inherit-tag-file.yml');
-		expect(configurez.bind(null, failFile, {
-			env: 'local',
-			extraTags: true
-		})).to.throw(XError);
+		try {
+			configurez(failFile, {
+				env: 'local',
+				extraTags: true
+			});
+		} catch(ex) {
+			expect(XError.isXError(ex)).to.be.true;
+			expect(ex.code).to.be.equal(XError.UNSUPPORTED_OPERATION);
+			return;
+		}
+		throw new Error('Circular dependency did not throw an error.');
 	});
 
 });

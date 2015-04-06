@@ -26,10 +26,17 @@ describe('!passwordstore', function() {
 	it('should grab values out of Password Store', function() {
 		this.timeout(60000);
 		let failFile = path.resolve(__dirname, 'resources', 'configurez-test-fail-passwordstore-tag-file.yml');
-		expect(configurez.bind(undefined, failFile, {
-			env: 'local',
-			extraTags: true
-		})).to.throw(XError);
+		try {
+			configurez(failFile, {
+				env: 'local',
+				extraTags: true
+			});
+		} catch(ex) {
+			expect(XError.isXError(ex)).to.be.true;
+			expect(ex.code).to.be.equal(XError.INTERNAL_ERROR);
+			return;
+		}
+		throw new Error('Invalid Password Store entry did not throw an error.');
 	});
 
 });
