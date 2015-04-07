@@ -1,6 +1,6 @@
 {
   "name": "zs-configurez",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Configuration detecting and merging with inheritance and other goodies.",
   "main": "./dist/lib/index.js",
   "repository": {
