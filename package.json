@@ -1,6 +1,6 @@
 {
   "name": "zs-configurez",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Configuration detecting and merging with inheritance and other goodies.",
   "main": "./dist/lib/index.js",
   "repository": {
@@ -24,8 +24,8 @@
     "js-yaml": "^3.2.7",
     "lodash": "^3.6.0",
     "pasync": "^0.2.0",
+    "readline-sync": "^0.8.0",
     "sync-exec": "^0.5.0",
-    "sync-prompt": "^0.4.2",
     "xerror": "^1.0.0",
     "zs-objtools": "^0.3.2"
   },

@@ -18,4 +18,18 @@ describe('!decrypt', function() {
 		});
 	});
 
+	it('should prompt the user for password', function() {
+		this.timeout(60000);
+		let failFile = path.resolve(__dirname, 'resources', 'configurez-test-decrypt-tag-file.yml');
+		console.log('HINT: The password is "password"');
+		let config = configurez(failFile, {
+			env: 'local',
+			extraTags: true
+		});
+		expect(config).to.deep.equal({
+			username: 'admon',
+			password: 'rubber-ducky'
+		});
+	});
+
 });
