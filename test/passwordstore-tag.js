@@ -31,7 +31,7 @@ describe('!passwordstore', function() {
 				env: 'local',
 				extraTags: true
 			});
-		} catch(ex) {
+		} catch (ex) {
 			expect(XError.isXError(ex)).to.be.true;
 			expect(ex.code).to.be.equal(XError.INTERNAL_ERROR);
 			return;
