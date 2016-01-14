@@ -60,9 +60,12 @@ describe('Directory Configurator', function() {
 	});
 
 	it('Should not load swap files', function() {
-		let config = configurez.dir();
+		let config = configurez.dir(undefined, {
+			dirname: path.resolve(__dirname, 'resources', 'inner'),
+			env: 'local'
+		});
 
-		expect(config).to.not.have.property('test-configurez');
+		expect(config).to.have.property('test-configurez', false);
 	});
 
 });
