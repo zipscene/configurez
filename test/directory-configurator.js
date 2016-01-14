@@ -59,6 +59,12 @@ describe('Directory Configurator', function() {
 		});
 	});
 
+	it('Should not load swap files', function() {
+		let config = configurez.dir();
+
+		expect(config).to.not.have.property('test-configurez');
+	});
+
 });
 
 
