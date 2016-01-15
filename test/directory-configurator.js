@@ -59,6 +59,16 @@ describe('Directory Configurator', function() {
 		});
 	});
 
+	it('Should not load swap files', function() {
+		let config = configurez.dir(undefined, {
+			dirname: path.resolve(__dirname, 'resources', 'inner'),
+			env: 'local'
+		});
+
+		expect(config).to.have.property('shouldExist', true);
+		expect(config).to.not.have.property('shouldNotExist');
+	});
+
 });
 
 
