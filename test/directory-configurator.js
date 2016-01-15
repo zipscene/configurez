@@ -65,7 +65,8 @@ describe('Directory Configurator', function() {
 			env: 'local'
 		});
 
-		expect(config).to.have.property('test-configurez', false);
+		expect(config).to.have.property('shouldExist', true);
+		expect(config).to.not.have.property('shouldNotExist');
 	});
 
 });
