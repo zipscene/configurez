@@ -1,6 +1,6 @@
 {
-	"name": "zs-configurez",
-	"description": "ZS Library: zs-configurez",
+	"name": "configurez",
+	"description": "ZS Library: configurez",
 	"options": {
 		"outdir": "./docs",
 		"exclude": "dist,tmp,test,node_modules"

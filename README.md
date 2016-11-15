@@ -51,7 +51,7 @@ For example:
 }
 ```
 ```js
-var configurez = require('zs-configurez');
+var configurez = require('configurez');
 var loadedConfig = {
   "local": {
     "port": 8000
@@ -84,7 +84,7 @@ This will walk the filesystem to find config files that match a given basename.
 By default, this is: `/\.configurez\.[json|ya?ml]/`.  
 For example:
 ```js
-var configurez = require('zs-configurez');
+var configurez = require('configurez');
 var configurator = new configurez.DirectoryConfigurator('project-config.json');
 // configurator.config = {
 //   "server: "localhost",
@@ -158,7 +158,7 @@ The `Password: ` prompt is hidden while typing.
 
 You can also access the encrypt script if you install Configurez globally:
 ```bash
-$ npm -i -g zs-configurez
+$ npm -i -g configurez
 $ configurez-encrypt
 ```
 

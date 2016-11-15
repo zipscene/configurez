@@ -1,12 +1,15 @@
 {
-  "name": "zs-configurez",
+  "name": "configurez",
   "version": "1.1.1",
   "description": "Configuration detecting and merging with inheritance and other goodies.",
   "main": "./dist/lib/index.js",
   "repository": {
     "type": "git",
-    "url": "git@git.zipscene.com:zsapilibs/zs-configurez.git"
+    "url": "https://github.com/zipscene/configurez.git"
   },
+  "keywords": [
+    "configurez"
+  ],
   "bin": {
     "configurez-encrypt": "dist/bin/encrypt.js"
   },
@@ -26,7 +29,7 @@
     "readline-sync": "^0.8.0",
     "sync-exec": "^0.5.0",
     "xerror": "^1.0.0",
-    "zs-objtools": "^1.2.0"
+    "objtools": "^1.2.0"
   },
   "devDependencies": {
     "broccoli": "^0.16.7",
@@ -42,7 +45,5 @@
     "source-map-support": "^0.3.2",
     "yuidocjs": "^0.9.0"
   },
-  "publishConfig": {
-    "registry": "https://npm.zipscene.com/"
-  }
+  "license": "Apache-2.0"
 }
