@@ -218,3 +218,18 @@ NOTE: in order to run the tests/use this tag, you must have pass installed as bi
 }
 ```
 This will execute `pass "Passtest/pass"`, then pass on the output to the config file.
+
+### buildConfig
+
+A function for building project configurations. It will check multiple paths and merge found configurations. Use it like this:
+```js
+let config = buildConfig();
+```
+By default, it will search the project directory and user's home directory for configuration file `project-config.json` or `project-config.yml` and merge the found configurations. You can supply your own configuration like this:
+```js
+let config = buildConfig({ cluster: { size: -1 } });
+```
+You can alson supply options to include paths to directories containing configuration files like this:
+```js
+let config = buildConfig({}, { projectDirs: [ '.' ] });
+```
