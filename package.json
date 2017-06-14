@@ -1,6 +1,6 @@
 {
   "name": "configurez",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Configuration detecting and merging with inheritance and other goodies.",
   "main": "./dist/lib/index.js",
   "repository": {
